@@ -47,7 +47,9 @@ clock = pygame.time.Clock()
 platform = Picture('сосиска.png',450,450,50,100,BlUE)
 platform2 = Picture('сосиска — копия.png',0,0,50,100,BlUE)
 ball = Picture('кот.png',150,200,50,57,BlUE)
-button_s = Picture('start_button.png',120,120,25,25,WHITE)
+button_s = Picture('start_button.png',200,200,25,25,WHITE)
+button_b = Picture('button-ball.png',10,10,25,25,WHITE)
+button_skins = Picture('skins_button.png',190,10,25,25,WHITE)
 mx = 5
 my = 5
 n = 9
@@ -62,6 +64,10 @@ dx = 3
 dy = 3
 button_s.fill()
 button_s.draw()
+button_b.fill()
+button_b.draw()
+button_skins.fill()
+button_skins.draw()
 pygame.display.update()
 while not game_over:
     for  event in pygame.event.get():
@@ -124,7 +130,6 @@ while not game_over:
             ball.rect.x += 2
         if ball.rect.y < 0 or ball.rect.y > 450:
             dy*= -1
-
         platform2.draw()
         platform.draw()
         ball.draw()
