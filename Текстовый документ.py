@@ -42,7 +42,7 @@ class Picture(Area):
     def draw(self):
         scene.blit(self.image,(self.rect.x,self.rect.y))
 scene = pygame.display.set_mode((500,500))
-scene.fill(WHITE)
+scene.fill(LIGHT_RED)
 clock = pygame.time.Clock()
 platform = Picture('сосиска.png',450,450,50,100,BlUE)
 platform2 = Picture('сосиска — копия.png',0,0,50,100,BlUE)
@@ -130,6 +130,8 @@ while not game_over:
             ball.rect.x += 2
         if ball.rect.y < 0 or ball.rect.y > 450:
             dy*= -1
+        if ball.rect.x<0:
+            
         platform2.draw()
         platform.draw()
         ball.draw()
