@@ -130,7 +130,7 @@ while not game_over:
             ball.rect.x += 2
         if ball.rect.y < 0 or ball.rect.y > 450:
             dy*= -1
-        if ball.rect.x<0:
+        #if ball.rect.x<0:
             
         platform2.draw()
         platform.draw()
