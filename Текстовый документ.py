@@ -14,6 +14,9 @@ import pygame
 from random import randint
 from time import time
 pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load("music.mp3")
+pygame.mixer.music.play(loops=-1)
 class Area():
     def __init__(self,x,y,width,height,fill_color):
         self.rect = pygame.Rect(x,y,width,height)
@@ -50,6 +53,8 @@ ball = Picture('кот.png',150,200,50,57,BlUE)
 button_s = Picture('start_button.png',200,200,25,25,WHITE)
 button_b = Picture('button-ball.png',10,10,25,25,WHITE)
 button_skins = Picture('skins_button.png',190,10,25,25,WHITE)
+balls_menu = Picture('меню_котиков.png',0,0,0,0,WHITE)
+skins_menu = Picture('скины.png',0,0,0,0,WHITE)
 mx = 5
 my = 5
 n = 9
@@ -62,6 +67,8 @@ move_up2 = False
 start = False
 dx = 3
 dy = 3
+balls = False
+skins = False
 button_s.fill()
 button_s.draw()
 button_b.fill()
@@ -73,12 +80,51 @@ while not game_over:
     for  event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
-            if event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 200 and event.pos[1] > 200 and event.pos[0] < 300 and event.pos[1] < 300:
+            if balls == False and skins == False and event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 200 and event.pos[1] > 200 and event.pos[0] < 300 and event.pos[1] < 300:
                 if event.button == 1:  #  левая кнопка мыши
                     start = True
+            if start == False and skins == False and event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 10 and event.pos[1] > 25 and event.pos[0] < 159 and event.pos[1] < 131:
+                if event.button == 1:  #  левая кнопка мыши
+                    balls = True
+            if start == False and balls == False and event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 190 and event.pos[1] > 10 and event.pos[0] < 155+190 and event.pos[1] < 115:
+                if event.button == 1:  #  левая кнопка мыши
+                    skins = True
             if event.type == pygame.QUIT:
                 game_over = True
             if event.type == pygame.KEYDOWN:
+                if balls and event.key == pygame.K_0:
+                    balls = False
+                    scene.fill(LIGHT_RED)
+                    button_s.fill()
+                    button_s.draw()
+                    button_b.fill()
+                    button_b.draw()
+                    button_skins.fill()
+                    button_skins.draw()
+                if skins and event.key == pygame.K_0:
+                    skins = False
+                    scene.fill(LIGHT_RED)
+                    button_s.fill()
+                    button_s.draw()
+                    button_b.fill()
+                    button_b.draw()
+                    button_skins.fill()
+                    button_skins.draw()
+                if balls and event.key == pygame.K_1:
+                    ball = Picture('кот.png',150,200,50,57,BlUE)
+                if balls and event.key == pygame.K_2:
+                    ball = Picture('кот2.png',150,200,50,57,BlUE)
+                if balls and event.key == pygame.K_3:
+                    ball = Picture('кот3.png',150,200,50,57,BlUE)
+                if skins and event.key == pygame.K_1:
+                    platform = Picture('сосиска.png',450,450,50,100,BlUE)
+                    platform2 = Picture('сосиска — копия.png',0,0,50,100,BlUE)
+                if skins and event.key == pygame.K_2:
+                    platform = Picture('веник.png',450,450,50,100,BlUE)
+                    platform2 = Picture('веник.png',0,0,50,100,BlUE)
+                if skins and event.key == pygame.K_3:
+                    platform = Picture('лапка.png',450,450,50,100,BlUE)
+                    platform2 = Picture('лапка.png',0,0,50,100,BlUE)
                 if event.key == pygame.K_DOWN:
                     move_down = True
                 if event.key == pygame.K_UP:
@@ -97,6 +143,7 @@ while not game_over:
                 if event.key == pygame.K_w:
                     move_up2 = False
     if start:
+        
         scene.fill(BlUE)
         platform.fill()
         platform2.fill()
@@ -130,11 +177,51 @@ while not game_over:
             ball.rect.x += 2
         if ball.rect.y < 0 or ball.rect.y > 450:
             dy*= -1
-        #if ball.rect.x<0:
+        if ball.rect.x<0:
+            platform = Picture('сосиска.png',450,450,50,100,BlUE)
+            platform2 = Picture('сосиска — копия.png',0,0,50,100,BlUE)
+            ball = Picture('кот.png',150,200,50,57,BlUE)
+            scene.fill(BlUE)
+            scene.blit(pygame.font.SysFont(None, 70).render('Player 1 lose!', True, RED),(100,160))
+            scene.blit(pygame.font.SysFont(None, 60).render('restarting game...', True, RED),(100,220))
+            pygame.display.update()
+            pygame.time.delay(3000)
+            scene.fill(LIGHT_RED)
+            button_s.fill()
+            button_s.draw()
+            button_b.fill()
+            button_b.draw()
+            button_skins.fill()
+            button_skins.draw()
+            start = False
+        if ball.rect.x>500:
+            platform = Picture('сосиска.png',450,450,50,100,BlUE)
+            platform2 = Picture('сосиска — копия.png',0,0,50,100,BlUE)
+            ball = Picture('кот.png',150,200,50,57,BlUE)
+            scene.fill(BlUE)
+            scene.blit(pygame.font.SysFont(None, 70).render('Player 2 lose!', True, RED),(100,160))
+            scene.blit(pygame.font.SysFont(None, 60).render('restarting game...', True, RED),(100,220))
+            pygame.display.update()
+            pygame.time.delay(3000)
+            scene.fill(LIGHT_RED)
+            button_s.fill()
+            button_s.draw()
+            button_b.fill()
+            button_b.draw()
+            button_skins.fill()
+            button_skins.draw()
+            start = False    
             
-        platform2.draw()
-        platform.draw()
-        ball.draw()
+        if start:
+            platform.draw()
+            platform2.draw()
+            ball.draw()
         clock.tick(40)
-        pygame.display.update()
+    if balls:
+        balls_menu.fill()
+        balls_menu.draw()
+    if skins:
+        skins_menu.fill()
+        skins_menu.draw()
+    pygame.display.update()
 pygame.display.update()
